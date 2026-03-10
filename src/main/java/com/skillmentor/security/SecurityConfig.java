@@ -31,9 +31,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/v1/mentors/**").permitAll()
-                        .requestMatchers("/api/v1/subjects/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/auth").permitAll()
+                        .requestMatchers("/api/v1/mentors/**", "/api/v1/mentors").permitAll()
+                        .requestMatchers("/api/v1/subjects/**", "/api/v1/subjects").permitAll()
                         .requestMatchers("/api/v1/sessions/**").authenticated()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
@@ -54,7 +54,7 @@ public class SecurityConfig {
                 "http://localhost:5173",
                 clientUrl));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
+        configuration.setAllowedHeaders(Arrays.asList("*")); // Allow all headers
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
